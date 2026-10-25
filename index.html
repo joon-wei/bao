@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8d8d8" />
+    <title>你还好吗</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!--chinese font zcool-->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    
+    <!--eng font Changa One-->
+    <link href="https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css?v=1.0.0">
+</head>
+
+<body>
+    <main class="phone-container">
+        <section class="hug-scene" aria-label="A little hug">
+            <div class="thought-bubble">
+                <img class="bubble-shape" src="bubble.png" alt="" />
+                <p class="bubble-text" id="bubble-text">好想你。。。</p>
+                <img class="bubble-hearts" id="bubble-hearts" src="hearts2.gif" alt="Two animated hearts" hidden />
+            </div>
+            <img class="hug-image" id="hug-image" src="sad.gif" alt="A little character looking sad" />
+        </section>
+
+        <div class="hug-actions">
+            <button class="hug-button" id="hug-button" type="button">
+                <span aria-hidden="true"></span>
+                抱
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const hugImage = document.querySelector('#hug-image');
+        const hugButton = document.querySelector('#hug-button');
+        const bubbleText = document.querySelector('#bubble-text');
+        const bubbleHearts = document.querySelector('#bubble-hearts');
+        let isHugging = false;
+
+        function startHug() {
+            if (isHugging) return;
+            isHugging = true;
+            hugImage.src = 'hug.gif';
+            hugImage.alt = 'Two characters sharing a warm hug';
+            bubbleText.hidden = true;
+            bubbleHearts.hidden = false;
+            hugButton.classList.add('is-holding');
+        }
+
+        function endHug() {
+            if (!isHugging) return;
+            isHugging = false;
+            hugImage.src = 'sad.gif';
+            hugImage.alt = 'A little character looking sad';
+            bubbleText.hidden = false;
+            bubbleHearts.hidden = true;
+            hugButton.classList.remove('is-holding');
+        }
+
+        hugButton.addEventListener('pointerdown', (event) => {
+            if (event.button !== 0) return;
+            event.preventDefault();
+            startHug();
+        });
+        window.addEventListener('pointerup', endHug);
+        window.addEventListener('pointercancel', endHug);
+        window.addEventListener('blur', endHug);
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) endHug();
+        });
+
+        hugButton.addEventListener('keydown', (event) => {
+            if (event.key === ' ' || event.key === 'Enter') {
+                event.preventDefault();
+                startHug();
+            }
+        });
+        hugButton.addEventListener('keyup', (event) => {
+            if (event.key === ' ' || event.key === 'Enter') endHug();
+        });
+    </script>
+</body>
