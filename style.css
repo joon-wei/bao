@@ -137,6 +137,9 @@ body {
   font-size: 32px;
   cursor: pointer;
   touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
   transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
 }
 
